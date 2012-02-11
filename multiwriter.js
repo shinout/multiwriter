@@ -7,7 +7,7 @@ function Writer(wstream, name, multiWriter, options) {
   this._wstream = wstream;
   this._writable = true;
   this._buffs = [];
-  this._interval = (typeof options.interval == 'number') ? parseInt(interval) : 0;
+  this._interval = (typeof options.interval == 'number') ? parseInt(options.interval) : 0;
   this._ended = false;
   this._i = 0;
 
