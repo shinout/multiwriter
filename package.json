@@ -1,0 +1,16 @@
+{
+  "author": "SHIN Suzuki <shinout310@gmail.com>",
+  "name": "multiwriter",
+  "description": "multi-writing",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "main": "./multiwriter.js",
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {}
+}
