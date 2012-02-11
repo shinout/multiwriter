@@ -25,7 +25,6 @@ function Writer(wstream, name, multiWriter, options) {
   });
 
   this._wstream.on('close', function() {
-    console.log("closing")
     self.emit('close');
     var mwriter = self._mwriter;
     // mwriter.emit(name + '.close');
