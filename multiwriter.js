@@ -37,6 +37,10 @@ function Writer(wstream, name, multiWriter, options) {
     self.emit('pipe');
     // self._mwriter.emit(name + '.pipe');
   });
+
+  if (this._wstream === process.stdout) {
+    this._mwriter.__privates.closed++; // as process.stdout cannot be closed.
+  }
 };
 
 Writer.prototype = new EventEmitter;
@@ -66,6 +70,11 @@ Writer.prototype.end = function() {
   if (this._i > 0) {
     Writer._write.call(this);
   }
+
+  if (this._wstream === process.stdout) {
+    this._ended = true;
+    return;
+  }
   this._wstream.end();
   this._ended = true;
 };
@@ -84,6 +93,10 @@ function MultiWriter(obj, options) {
   options || (options = {});
   this._names = Object.keys(obj);
 
+  this.__privates = {
+    closed : 0
+  };
+
   this._names.forEach(function(name) {
     if (name in this) throw new Error("cannot set " + name);
     var stream = obj[name];
@@ -93,10 +106,12 @@ function MultiWriter(obj, options) {
     this[name] = new Writer(stream, name, this, options);
   }, this);
 
-  this.__privates = {
-    closed : 0
-  };
+
 }
+
+MultiWriter.create = function(obj, options) {
+  return new MultiWriter(obj, options);
+};
 
 MultiWriter.prototype = new EventEmitter;
 
